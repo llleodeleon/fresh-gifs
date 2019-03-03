@@ -3,11 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion build_versions.target_sdk
     defaultConfig {
         applicationId "com.leodeleon.freshgifs"
-        minSdkVersion 21
-        targetSdkVersion 28
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -26,14 +26,20 @@ android {
 //To see which deps need to update run: gradle dependencyUpdates -Drevision=release
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.kotlin.stdlib
+    implementation project(":data")
+
+
     implementation deps.jetpack.appcompat
     implementation deps.jetpack.ktx
     implementation deps.jetpack.constraint
+    implementation deps.jetpack.viewmodel
+    implementation deps.jetpack.recyclerview
+
+    implementation deps.kotlin.koin
+    implementation deps.kotlin.koinViewModel
+
     implementation deps.google.material
-    implementation deps.rx.rxjava
-    implementation deps.rx.rxkotlin
-    implementation deps.rx.rxandroid
+
     implementation deps.rx.rxbinding
     implementation deps.rx.rxbindingCore
     implementation deps.rx.rxbindingAppCompat

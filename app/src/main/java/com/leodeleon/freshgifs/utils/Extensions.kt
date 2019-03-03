@@ -1,4 +1,4 @@
-package com.leodeleon.freshgifs
+package com.leodeleon.freshgifs.utils
 
 import android.app.Activity
 import android.content.res.Resources

@@ -1,4 +1,4 @@
-package com.leodeleon.freshgifs
+package com.leodeleon.freshgifs.utils
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentPagerAdapter

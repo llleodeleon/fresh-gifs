@@ -6,11 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
+import com.leodeleon.freshgifs.explore.ExploreFragment
+import com.leodeleon.freshgifs.favorites.FavoritesFragment
+import com.leodeleon.freshgifs.utils.listen
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val fragments: List<Fragment> = listOf(ExploreFragment(), FavoritesFragment())
+    private val fragments: List<Fragment> = listOf(ExploreFragment(),
+        FavoritesFragment()
+    )
 
     private val adapter = object : FragmentPagerAdapter(supportFragmentManager) {
         override fun getItem(position: Int) = fragments[position]
