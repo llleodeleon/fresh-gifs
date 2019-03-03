@@ -13,6 +13,7 @@ def versions = [
         moshi         : '1.8.0',
         junit         : "5.4.0",
         lifecycle     : "1.1.1",
+        okhttp        : "3.12.1",
         paging        : "2.0.0-rc01",
         rxbinding     : "3.0.0-alpha2",
         bindingAdapter: '3.0.0-beta3'
@@ -44,6 +45,7 @@ deps.net = [
         retrofitRx   : "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit",
         glide        : "com.github.bumptech.glide:glide:$versions.glide",
         okhttp       : "com.squareup.okhttp3:okhttp:3.12.1",
+        okhttpLogging: "com.squareup.okhttp3:logging-interceptor:3.12.1",
         moshi        : "com.squareup.moshi:moshi:$versions.moshi"
 ]
 deps.rx = [
@@ -62,6 +64,7 @@ deps.kapt = [
         moshi: "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshi"
 ]
 deps.utils = [
+        carousel: "com.azoft.carousellayoutmanager:carousel:1.2.4",
         bindingAdapter : "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:$versions.bindingAdapter",
         bindingRecycler: "me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:$versions.bindingAdapter"
 ]

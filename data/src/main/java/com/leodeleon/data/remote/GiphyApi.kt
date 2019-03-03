@@ -2,6 +2,7 @@ package com.leodeleon.data.remote
 
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -22,6 +23,7 @@ class GiphyApi {
 
     private fun provideOkHttp() : OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor())
             .readTimeout(20, TimeUnit.SECONDS)
             .build()
     }

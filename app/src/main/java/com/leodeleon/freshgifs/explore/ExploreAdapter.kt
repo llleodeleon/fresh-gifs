@@ -16,7 +16,12 @@ class ExploreAdapter: PagedListAdapter<Giphy, ExploreAdapter.GifViewHolder>(Expl
     }
 
     override fun onBindViewHolder(holder: GifViewHolder, position: Int) {
+
         holder.binding.gif = getItem(position)
+    }
+
+    fun getGif(position: Int): Giphy?{
+        return getItem(position)
     }
 
     class GifViewHolder(val binding: ItemGifBinding): RecyclerView.ViewHolder(binding.root)

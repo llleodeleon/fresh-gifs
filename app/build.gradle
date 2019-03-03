@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion build_versions.target_sdk
@@ -27,22 +28,23 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(":data")
-
-
+    
     implementation deps.jetpack.appcompat
     implementation deps.jetpack.ktx
     implementation deps.jetpack.constraint
     implementation deps.jetpack.viewmodel
     implementation deps.jetpack.recyclerview
-
     implementation deps.kotlin.koin
     implementation deps.kotlin.koinViewModel
-
     implementation deps.google.material
-
+    implementation deps.net.glide
     implementation deps.rx.rxbinding
     implementation deps.rx.rxbindingCore
     implementation deps.rx.rxbindingAppCompat
+    implementation deps.utils.carousel
+
+    kapt deps.kapt.glide
+
     testImplementation deps.test.junit
     testRuntimeOnly deps.test.junitEngine
     androidTestImplementation deps.test.runner

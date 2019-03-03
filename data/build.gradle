@@ -37,7 +37,7 @@ dependencies {
     api deps.rx.rxkotlin
     api deps.rx.rxandroid
 
-
+    implementation deps.net.okhttpLogging
     implementation deps.net.retrofit
     implementation deps.net.retrofitMoshi
     implementation deps.net.retrofitRx
