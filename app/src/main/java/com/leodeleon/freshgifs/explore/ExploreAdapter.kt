@@ -1,13 +1,14 @@
 package com.leodeleon.freshgifs.explore
 
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.leodeleon.domain.entities.Giphy
 import com.leodeleon.freshgifs.databinding.ItemGifVerticalBinding
+import com.leodeleon.freshgifs.utils.getColorFromPosition
 
 class ExploreAdapter: PagedListAdapter<Giphy, ExploreAdapter.GifViewHolder>(ExploreAdapter.DiffCallBack) {
 
@@ -18,6 +19,7 @@ class ExploreAdapter: PagedListAdapter<Giphy, ExploreAdapter.GifViewHolder>(Expl
 
     override fun onBindViewHolder(holder: GifViewHolder, position: Int) {
         holder.binding.gif = getItem(position)
+        holder.binding.placeholder = ColorDrawable(getColorFromPosition(position))
     }
 
     fun getGif(position: Int): Giphy?{

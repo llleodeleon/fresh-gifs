@@ -42,6 +42,8 @@ dependencies {
     implementation deps.rx.rxbindingCore
     implementation deps.rx.rxbindingAppCompat
     implementation deps.utils.carousel
+    implementation deps.utils.bindingAdapter
+    implementation deps.utils.bindingRecycler
 
     kapt deps.kapt.glide
 

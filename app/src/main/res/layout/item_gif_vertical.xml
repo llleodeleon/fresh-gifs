@@ -7,6 +7,9 @@
         <variable
             name="gif"
             type="com.leodeleon.domain.entities.Giphy"/>
+        <variable
+                name="placeholder"
+                type="android.graphics.drawable.Drawable"/>
     </data>
 
         <ImageView
@@ -14,9 +17,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:gifImage="@{gif.images.fixed_width}"
+            app:placeholder="@{placeholder}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:src="@tools:sample/avatars"
+            android:adjustViewBounds="true"
         />
 
 </layout>

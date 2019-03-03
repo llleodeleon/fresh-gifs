@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+                name="viewModel"
+                type="com.leodeleon.freshgifs.favorites.FavoritesViewModel"/>
+        <import type="me.tatarka.bindingcollectionadapter2.LayoutManagers" alias="manager"/>
+    </data>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+                  android:orientation="vertical"
         tools:context=".favorites.FavoritesFragment">
-    
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        
+
             <TextView
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
@@ -20,9 +28,24 @@
                 android:textColor="@color/white"
                 android:layout_gravity="center|center_vertical"
                 android:fontFamily="@font/archivo_black"
-        
+
             />
         </androidx.appcompat.widget.Toolbar>
-    
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="4dp"
+                android:clipChildren="false"
+                app:items="@{viewModel.favorites}"
+                app:itemBinding="@{viewModel.itemBinding}"
+                app:layoutManager="@{manager.staggeredGrid(2,1)}"
+                tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:listitem="@layout/item_gif_grid"
+                tools:spanCount="2"
+        />
+
     </LinearLayout>
 </layout>

@@ -81,7 +81,6 @@ class ExploreViewModel(api: GiphyApi, private val repository: IFavoriteRepositor
                 view.context.toast(R.string.snack_error)
             },{
                 if(isFavorite){
-                    view.context.toast(R.string.snack_saved)
                     if(!favorites.any { it.id == gif.id }){
                         favorites.add(gif)
                     }
@@ -89,7 +88,6 @@ class ExploreViewModel(api: GiphyApi, private val repository: IFavoriteRepositor
                    favorites.find { it.id == gif.id }?.let {
                        favorites.remove(it)
                    }
-                    view.context.toast(R.string.snack_removed)
                 }
                 this.isFavorite.set(isFavorite)
             })

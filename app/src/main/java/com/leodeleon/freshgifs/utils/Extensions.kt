@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import com.leodeleon.freshgifs.R
 import com.leodeleon.freshgifs.app.App
 
 val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
@@ -22,8 +23,23 @@ fun Any.logd(msg:String, tag: String = this.javaClass.simpleName){
     Log.d(tag,msg)
 }
 
-fun Any.getString(@StringRes resId: Int): String {
+fun getString(@StringRes resId: Int): String {
     return App.instance.getString(resId)
+}
+
+fun getColor(@ColorRes resId: Int): Int {
+    return ContextCompat.getColor(App.instance, resId)
+}
+
+fun getColorFromPosition(position: Int): Int{
+    return when {
+        position % 5 == 0 -> getColor(R.color.yellow)
+        position % 5 == 1 -> getColor(R.color.pink)
+        position % 5 == 2 -> getColor(R.color.green)
+        position % 5 == 3 -> getColor(R.color.blue)
+        position % 5 == 4 -> getColor(R.color.purple)
+        else -> getColor(R.color.yellow)
+    }
 }
 
 fun View.snack(@StringRes resId: Int, length: Int = Snackbar.LENGTH_LONG) {
