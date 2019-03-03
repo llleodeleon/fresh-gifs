@@ -6,7 +6,7 @@
     <data>
         <variable
             name="gif"
-            type="com.leodeleon.domain.Giphy"/>
+            type="com.leodeleon.domain.entities.Giphy"/>
     </data>
 
         <ImageView

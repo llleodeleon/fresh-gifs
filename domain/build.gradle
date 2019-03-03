@@ -4,6 +4,7 @@ apply plugin: 'kotlin'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.kotlin.stdlib
+    api deps.rx.rxjava
 }
 
 sourceCompatibility = "8"

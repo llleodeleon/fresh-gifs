@@ -1,7 +1,7 @@
 package com.leodeleon.data.remote
 
 import com.leodeleon.data.BuildConfig
-import com.leodeleon.domain.ApiResponse
+import com.leodeleon.domain.entities.ApiResponse
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query

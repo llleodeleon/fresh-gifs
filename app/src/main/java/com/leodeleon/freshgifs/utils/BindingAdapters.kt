@@ -1,21 +1,15 @@
 package com.leodeleon.freshgifs.utils
 
-import android.graphics.drawable.Animatable
-import android.graphics.drawable.Drawable
+import android.view.View
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.load.resource.gif.GifDrawable
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
-import com.leodeleon.domain.Image
-import com.leodeleon.freshgifs.R
+import com.leodeleon.domain.entities.Image
 
 
 object BindingAdapters {
@@ -51,6 +45,18 @@ object BindingAdapters {
             .apply(options)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(view)
+    }
+
+    @BindingAdapter(value = ["selected"])
+    @JvmStatic
+    fun setSelected(view: View, selected: Boolean){
+        view.isSelected = selected
+    }
+
+    @BindingAdapter(value = ["isVisible"])
+    @JvmStatic
+    fun setVisible(view: View, isVisible: Boolean){
+        view.isVisible = isVisible
     }
 
 }

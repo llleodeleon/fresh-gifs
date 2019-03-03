@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion build_versions.target_sdk
@@ -33,14 +34,17 @@ dependencies {
     api deps.jetpack.pagingRuntime
     api deps.jetpack.livedata
 
-    api deps.rx.rxjava
     api deps.rx.rxkotlin
     api deps.rx.rxandroid
+    api deps.rx.rxprefs
 
     implementation deps.net.okhttpLogging
     implementation deps.net.retrofit
     implementation deps.net.retrofitMoshi
     implementation deps.net.retrofitRx
+    implementation deps.net.moshi
+
+    kapt deps.kapt.moshi
 
     testImplementation deps.test.junit
     testRuntimeOnly deps.test.junitEngine

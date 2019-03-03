@@ -1,4 +1,4 @@
-package com.leodeleon.domain
+package com.leodeleon.domain.entities
 
 data class Pagination(
     val total_count: Int,
