@@ -47,11 +47,4 @@ class FavoritesViewModel(private val repository: IFavoriteRepository, private va
             }
             .addTo(subscriptions)
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        favorites.forEach {
-            it.reset()
-        }
-    }
 }

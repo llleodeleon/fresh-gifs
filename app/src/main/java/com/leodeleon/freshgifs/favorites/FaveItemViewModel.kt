@@ -13,8 +13,10 @@ class FaveItemViewModel(val item: Giphy, @ColorInt val placeholder: Int, private
     val alpha = ObservableFloat(1.0f)
 
     val onLongPress = View.OnLongClickListener {
-        alpha.set(0.2f)
-        showDelete.set(!showDelete.get())
+        if(!showDelete.get()){
+            alpha.set(0.2f)
+            showDelete.set(true)
+        }
         true
     }
 
@@ -24,13 +26,9 @@ class FaveItemViewModel(val item: Giphy, @ColorInt val placeholder: Int, private
 
     val onClick = View.OnClickListener {
         if(showDelete.get()){
-            reset()
+            alpha.set(1.0f)
+            showDelete.set(false)
         }
-    }
-
-    fun reset(){
-        alpha.set(1.0f)
-        showDelete.set(false)
     }
 
 }
