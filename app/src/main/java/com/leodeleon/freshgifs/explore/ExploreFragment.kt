@@ -22,8 +22,10 @@ import com.leodeleon.freshgifs.databinding.FragmentExploreBinding
 import com.leodeleon.freshgifs.utils.BindingAdapters
 import com.leodeleon.freshgifs.utils.getColorFromPosition
 import com.leodeleon.freshgifs.utils.logd
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_explore.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.random.Random
@@ -38,7 +40,7 @@ class ExploreFragment : BaseFragment() {
         override fun onRemoved(position: Int, count: Int) {}
 
         override fun onInserted(position: Int, count: Int) {
-            if(position == 0){
+            if(position == 0 && adapter.itemCount > 0){
                 adapter.getGif(0)?.let { onCenterGif(it) }
             }
         }
@@ -58,15 +60,20 @@ class ExploreFragment : BaseFragment() {
         setupSearch()
         setupRecycler()
         setupButton()
-        observe(viewModel.trendingList) {
-            it.addWeakCallback(it.snapshot(), weakCallback)
-            adapter.submitList(it)
-        }
-        observe(viewModel.searchList){
-            adapter.submitList(it)
-            it.addWeakCallback(it.snapshot(),  weakCallback)
-        }
         viewModel.loadFavorites()
+
+        Observable.merge(viewModel.gifList, viewModel.searchGifList)
+            .subscribe {
+                it.addWeakCallback(it.snapshot(), weakCallback)
+                adapter.submitList(it)
+            }.addTo(subscriptions)
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if(isVisibleToUser && adapter.itemCount > 0){
+            viewModel.loadFavorites()
+        }
     }
 
     private fun setupRecycler() {
@@ -75,9 +82,7 @@ class ExploreFragment : BaseFragment() {
             setPostLayoutListener(CarouselZoomPostLayoutListener())
             addOnItemSelectionListener {
                     if (CarouselLayoutManager.INVALID_POSITION != it) {
-                        adapter.getGif(it)?.let {
-                            onCenterGif(it)
-                        }
+                            onCenterGif(adapter.getGif(it))
                 }
             }
         }
@@ -123,14 +128,14 @@ class ExploreFragment : BaseFragment() {
         }
     }
 
-    private fun onCenterGif(gif: Giphy) {
-        val avatarUrl = gif.user?.avatar_url?:""
+    private fun onCenterGif(gif: Giphy?) {
+        gif?: return
 
         if(!button_favorite.isVisible){
             button_favorite.isVisible = true
         }
-
-        if(avatarUrl.isNotEmpty()){
+        val avatarUrl = gif.user?.avatar_url
+        if(avatarUrl?.isNotEmpty() == true){
             val random = Random.nextInt(0,5)
             val placeholder = ColorDrawable(getColorFromPosition(random))
             BindingAdapters.loadImage(picture,avatarUrl,placeholder)

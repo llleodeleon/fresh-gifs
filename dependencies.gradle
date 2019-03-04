@@ -52,6 +52,7 @@ deps.rx = [
         rxjava            : "io.reactivex.rxjava2:rxjava:2.2.5",
         rxandroid         : "io.reactivex.rxjava2:rxandroid:2.1.0",
         rxkotlin          : "io.reactivex.rxjava2:rxkotlin:2.3.0",
+        rxrelay: "com.jakewharton.rxrelay2:rxrelay:2.1.0",
         rxprefs           : "com.f2prateek.rx.preferences2:rx-preferences:2.0.0",
         rxbinding         : "com.jakewharton.rxbinding3:rxbinding:$versions.rxbinding",
         rxbindingCore     : "com.jakewharton.rxbinding3:rxbinding-core:$versions.rxbinding",

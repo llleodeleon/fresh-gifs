@@ -1,21 +1,23 @@
 package com.leodeleon.data.paging
 
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
+import com.jakewharton.rxrelay2.PublishRelay
+import com.leodeleon.data.DataState
 import com.leodeleon.data.remote.GiphyService
 import com.leodeleon.domain.entities.Giphy
 import io.reactivex.disposables.CompositeDisposable
 
 class TrendingDataSourceFactory(
     private val service: GiphyService,
+    private val state: PublishRelay<DataState>,
     private val subscriptions: CompositeDisposable
 ): DataSource.Factory<Int, Giphy>() {
 
-    val sourceLiveData = MutableLiveData<TrendingDataSource>()
+    lateinit var source: TrendingDataSource
+    private set
 
     override fun create(): DataSource<Int, Giphy> {
-        val source = TrendingDataSource(service, subscriptions)
-        sourceLiveData.postValue(source)
+        source = TrendingDataSource(service, state, subscriptions)
         return source
     }
 }

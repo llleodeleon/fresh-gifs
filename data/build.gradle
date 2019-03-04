@@ -37,6 +37,7 @@ dependencies {
     api deps.rx.rxkotlin
     api deps.rx.rxandroid
     api deps.rx.rxprefs
+    api deps.rx.rxrelay
 
     implementation deps.net.okhttpLogging
     implementation deps.net.retrofit

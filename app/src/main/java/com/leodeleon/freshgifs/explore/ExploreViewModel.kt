@@ -3,9 +3,10 @@ package com.leodeleon.freshgifs.explore
 import android.view.View
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
-import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import androidx.paging.RxPagedListBuilder
+import com.jakewharton.rxrelay2.PublishRelay
+import com.leodeleon.data.DataState
 import com.leodeleon.data.ISchedulerProvider
 import com.leodeleon.data.paging.SearchDataSourceFactory
 import com.leodeleon.data.paging.TrendingDataSourceFactory
@@ -16,47 +17,54 @@ import com.leodeleon.freshgifs.R
 import com.leodeleon.freshgifs.base.BaseViewModel
 import com.leodeleon.freshgifs.utils.getString
 import com.leodeleon.freshgifs.utils.toast
+import io.reactivex.Observable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 
 class ExploreViewModel(api: GiphyApi, private val repository: IFavoriteRepository, private val schedulers: ISchedulerProvider) : BaseViewModel() {
 
-    private val trendingFactory = TrendingDataSourceFactory(api.service, subscriptions)
-    private val searchFactory = SearchDataSourceFactory(api.service, subscriptions)
-    private val config = PagedList.Config.Builder()
-        .setEnablePlaceholders(false)
-        .setPageSize(25)
-        .setInitialLoadSizeHint(25)
-        .build()
+    private val stateRelay: PublishRelay<DataState> = PublishRelay.create()
+    private val trendingFactory = TrendingDataSourceFactory(api.service, stateRelay, subscriptions)
+    private val searchFactory = SearchDataSourceFactory(api.service, stateRelay, subscriptions)
 
-
-    val trendingList: LiveData<PagedList<Giphy>>
-    val searchList: LiveData<PagedList<Giphy>>
+    val gifList: Observable<PagedList<Giphy>>
+    val searchGifList: Observable<PagedList<Giphy>>
     val isFavorite = ObservableBoolean()
     val showPicture = ObservableBoolean()
+
     val showName = ObservableBoolean()
     val showSource = ObservableBoolean()
     val name = ObservableField<String>()
     val source = ObservableField<String>()
+
+    val showEmpty = ObservableBoolean()
+    val showError = ObservableBoolean()
+    val showSuccess = ObservableBoolean()
+    val showLoading = ObservableBoolean()
+    var currentGif: Giphy? = null
+
     private var favorites: MutableList<Giphy> = mutableListOf()
-    private var previousList: PagedList<Giphy>? = null
     private var hasSearched = false
 
     init {
-        trendingList = LivePagedListBuilder<Int, Giphy>(trendingFactory,config).build()
-        searchList = LivePagedListBuilder<Int,Giphy>(searchFactory,config).build()
+        gifList = RxPagedListBuilder<Int,Giphy>(trendingFactory, 25).buildObservable()
+        searchGifList = RxPagedListBuilder<Int,Giphy>(searchFactory, 25).buildObservable()
+        observeState()
     }
 
     fun loadFavorites(){
         repository.getFavorites()
             .observeOn(schedulers.main())
             .subscribeBy{
+                favorites.clear()
                 favorites.addAll(it)
+                isFavorite.set(favorites.any { it.id == currentGif?.id })
             }
             .addTo(subscriptions)
     }
 
     fun onCenterGif(gif: Giphy){
+        currentGif = gif
         val sourceName = gif.user?.let {
             if(it.username.isNotEmpty()) "@${it.username}" else ""
         }?: gif.source_tld
@@ -97,17 +105,25 @@ class ExploreViewModel(api: GiphyApi, private val repository: IFavoriteRepositor
     fun onClearSearch() {
         searchFactory.query = ""
         if(hasSearched){
-            trendingFactory.sourceLiveData.value?.invalidate()
+            trendingFactory.source.invalidate()
             hasSearched = false
         }
     }
 
     fun onSearch(query: String){
         resetFields()
-        previousList = trendingList.value
         searchFactory.query = query
-        searchFactory.sourceLiveData.value?.invalidate()
+        searchFactory.source.invalidate()
         hasSearched = true
+    }
+
+    private fun observeState(){
+        stateRelay.subscribe {
+            showLoading.set(it == DataState.LOADING)
+            showError.set( it == DataState.ERROR)
+            showSuccess.set( it == DataState.SUCCESS)
+            showEmpty.set( it == DataState.EMPTY)
+        }.addTo(subscriptions)
     }
 
     private fun resetFields(){
