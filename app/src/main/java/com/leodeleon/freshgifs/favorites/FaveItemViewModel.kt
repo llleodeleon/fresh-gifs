@@ -1,6 +1,5 @@
 package com.leodeleon.freshgifs.favorites
 
-import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.databinding.ObservableBoolean
@@ -10,10 +9,9 @@ class FaveItemViewModel(val item: Giphy, @ColorInt val placeholder: Int, private
 
     val showDelete = ObservableBoolean()
     val image = item.images.fixed_width
-    val imageUrl = item.images.fixed_width_still.url
 
     val onLongPress = View.OnLongClickListener {
-        it.alpha = 0.2f
+        it.post { it.alpha = 0.2f }
         showDelete.set(!showDelete.get())
         true
     }
@@ -24,7 +22,7 @@ class FaveItemViewModel(val item: Giphy, @ColorInt val placeholder: Int, private
 
     val onClick = View.OnClickListener {
         if(showDelete.get()){
-            it.alpha = 1.0f
+            it.post { it.alpha = 1.0f }
             showDelete.set(false)
         }
     }

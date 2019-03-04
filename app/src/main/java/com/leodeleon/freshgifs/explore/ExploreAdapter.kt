@@ -1,8 +1,8 @@
 package com.leodeleon.freshgifs.explore
 
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +24,10 @@ class ExploreAdapter: PagedListAdapter<Giphy, ExploreAdapter.GifViewHolder>(Expl
 
     fun getGif(position: Int): Giphy?{
         return getItem(position)
+    }
+
+    override fun onCurrentListChanged(currentList: PagedList<Giphy>?) {
+        super.onCurrentListChanged(currentList)
     }
 
     class GifViewHolder(val binding: ItemGifVerticalBinding): RecyclerView.ViewHolder(binding.root)

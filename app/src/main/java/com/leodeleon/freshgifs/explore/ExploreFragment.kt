@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
+import androidx.paging.PagedList
 import com.azoft.carousellayoutmanager.CarouselLayoutManager
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener
 import com.azoft.carousellayoutmanager.CenterScrollListener
@@ -32,6 +33,17 @@ class ExploreFragment : BaseFragment() {
     private val viewModel: ExploreViewModel by viewModel()
     private val adapter = ExploreAdapter()
 
+    private val weakCallback = object : PagedList.Callback() {
+        override fun onChanged(position: Int, count: Int) {}
+        override fun onRemoved(position: Int, count: Int) {}
+
+        override fun onInserted(position: Int, count: Int) {
+            if(position == 0){
+                adapter.getGif(0)?.let { onCenterGif(it) }
+            }
+        }
+    }
+
     private val scaleAnimation: Animation by lazy { AnimationUtils.loadAnimation(requireContext(), R.anim.bounce) }
     private val carouselLayoutManager = CarouselLayoutManager(CarouselLayoutManager.VERTICAL)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,10 +59,12 @@ class ExploreFragment : BaseFragment() {
         setupRecycler()
         setupButton()
         observe(viewModel.trendingList) {
+            it.addWeakCallback(it.snapshot(), weakCallback)
             adapter.submitList(it)
         }
         observe(viewModel.searchList){
             adapter.submitList(it)
+            it.addWeakCallback(it.snapshot(),  weakCallback)
         }
         viewModel.loadFavorites()
     }
@@ -63,7 +77,6 @@ class ExploreFragment : BaseFragment() {
                     if (CarouselLayoutManager.INVALID_POSITION != it) {
                         adapter.getGif(it)?.let {
                             onCenterGif(it)
-                            logd(it.toString())
                         }
                 }
             }
@@ -86,6 +99,7 @@ class ExploreFragment : BaseFragment() {
                 if (isEmpty) {
                     toolbar_title.text = getString(R.string.trending)
                     viewModel.onClearSearch()
+                    carouselLayoutManager.scrollToPosition(0)
                 }
                 !isEmpty
             }
@@ -95,6 +109,7 @@ class ExploreFragment : BaseFragment() {
                     toolbar_title.text = query
                     search_view.clearFocus()
                     viewModel.onSearch(query)
+                    carouselLayoutManager.scrollToPosition(0)
                 }
             }
             .addTo(subscriptions)
