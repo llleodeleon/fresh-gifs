@@ -104,6 +104,7 @@
         />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/info_layout"
                 android:layout_width="0dp"
                 android:layout_height="72dp"
                 app:layout_constraintTop_toTopOf="@id/guide_source"
@@ -116,12 +117,10 @@
                     android:id="@+id/picture"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:visibility="gone"
                     app:isVisible="@{viewModel.showPicture}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    tools:visibility="visible"
                     tools:src="@drawable/bg_source"
             />
 
@@ -167,17 +166,115 @@
                     android:layout_height="40dp"
                     android:scaleType="fitCenter"
                     android:padding="2dp"
-                    android:visibility="gone"
                     app:selected="@{viewModel.isFavorite}"
                     android:src="@drawable/button_favorite"
                     android:background="@android:color/transparent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    tools:visibility="visible"
             />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@android:style/Widget.Material.ProgressBar.Large"
+                app:layout_constraintTop_toBottomOf="@id/app_bar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:isVisible="@{viewModel.showLoading}"
+        />
+
+        <LinearLayout
+                android:id="@+id/error_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                app:isVisible="@{viewModel.showError}"
+                app:layout_constraintTop_toBottomOf="@id/app_bar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:visibility="visible"
+        >
+
+            <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_error"
+                    android:alpha="0.6"
+            />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/archivo_black"
+                    android:singleLine="true"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/message_error"
+            />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/archivo_black"
+                    android:singleLine="true"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{viewModel::onRetry}"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/green"
+                    android:text="@string/retry"
+            />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/empty_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                app:isVisible="@{viewModel.showEmpty}"
+                app:layout_constraintTop_toBottomOf="@id/app_bar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:visibility="gone"
+        >
+
+            <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_empty"
+                    android:alpha="0.6"
+            />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/archivo_black"
+                    android:singleLine="true"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/message_empty"
+            />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.Group
+                android:id="@+id/content_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="info_layout,recycler_view"
+                app:isVisible="@{viewModel.showContent}"
+        />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -131,9 +131,6 @@ class ExploreFragment : BaseFragment() {
     private fun onCenterGif(gif: Giphy?) {
         gif?: return
 
-        if(!button_favorite.isVisible){
-            button_favorite.isVisible = true
-        }
         val avatarUrl = gif.user?.avatar_url
         if(avatarUrl?.isNotEmpty() == true){
             val random = Random.nextInt(0,5)

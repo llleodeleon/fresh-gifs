@@ -39,7 +39,7 @@ class ExploreViewModel(api: GiphyApi, private val repository: IFavoriteRepositor
 
     val showEmpty = ObservableBoolean()
     val showError = ObservableBoolean()
-    val showSuccess = ObservableBoolean()
+    val showContent = ObservableBoolean()
     val showLoading = ObservableBoolean()
     var currentGif: Giphy? = null
 
@@ -86,7 +86,7 @@ class ExploreViewModel(api: GiphyApi, private val repository: IFavoriteRepositor
         }
         call.observeOn(schedulers.main())
             .subscribeBy({
-                view.context.toast(R.string.snack_error)
+                view.context.toast(R.string.message_error)
             },{
                 if(isFavorite){
                     if(!favorites.any { it.id == gif.id }){
@@ -110,6 +110,10 @@ class ExploreViewModel(api: GiphyApi, private val repository: IFavoriteRepositor
         }
     }
 
+    fun onRetry(view: View){
+        trendingFactory.source.invalidate()
+    }
+
     fun onSearch(query: String){
         resetFields()
         searchFactory.query = query
@@ -121,7 +125,7 @@ class ExploreViewModel(api: GiphyApi, private val repository: IFavoriteRepositor
         stateRelay.subscribe {
             showLoading.set(it == DataState.LOADING)
             showError.set( it == DataState.ERROR)
-            showSuccess.set( it == DataState.SUCCESS)
+            showContent.set( it == DataState.SUCCESS)
             showEmpty.set( it == DataState.EMPTY)
         }.addTo(subscriptions)
     }
