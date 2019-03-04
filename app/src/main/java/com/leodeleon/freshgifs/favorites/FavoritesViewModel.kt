@@ -1,6 +1,6 @@
 package com.leodeleon.freshgifs.favorites
 
-import android.graphics.drawable.ColorDrawable
+import androidx.databinding.ObservableBoolean
 import com.leodeleon.data.ISchedulerProvider
 import com.leodeleon.domain.IFavoriteRepository
 import com.leodeleon.domain.entities.Giphy
@@ -24,19 +24,27 @@ class FavoritesViewModel(private val repository: IFavoriteRepository, private va
     })
 
     val itemBinding : ItemBinding<FaveItemViewModel> = ItemBinding.of(BR.viewModel, R.layout.item_gif_grid)
+    val isEmpty = ObservableBoolean()
 
     fun loadData(){
         repository.getFavorites()
             .observeOn(schedulers.main())
             .subscribeBy { faves ->
+                isEmpty.set(faves.isEmpty())
                 val items = faves.mapIndexed { index: Int, giphy: Giphy ->
-                    FaveItemViewModel(giphy, ColorDrawable(getColorFromPosition(index))) }
+                    FaveItemViewModel(giphy, getColorFromPosition(index), ::onDelete) }
                 favorites.update(items)
             }.addTo(subscriptions)
     }
 
     private fun onDelete(gif: Giphy){
-        val newItems = favorites.filter { it.item.id != gif.id }
-        favorites.update(newItems)
+        repository.removeFavorite(gif)
+            .observeOn(schedulers.main())
+            .subscribe {
+                val newItems = favorites.filter { it.item.id != gif.id }
+                isEmpty.set(newItems.isEmpty())
+                favorites.update(newItems)
+            }
+            .addTo(subscriptions)
     }
 }

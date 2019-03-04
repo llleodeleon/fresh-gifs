@@ -7,6 +7,7 @@
     <string name="source">Source</string>
     <string name="search_hint">Search all the GIFs</string>
     <string name="snack_saved">GIF saved to favorites</string>
+    <string name="faves_empty">You have no faves</string>
     <string name="snack_removed">GIF removed from favorites</string>
     <string name="snack_error">Oops… there was an error</string>
 </resources>

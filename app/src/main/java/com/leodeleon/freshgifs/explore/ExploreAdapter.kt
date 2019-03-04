@@ -19,7 +19,7 @@ class ExploreAdapter: PagedListAdapter<Giphy, ExploreAdapter.GifViewHolder>(Expl
 
     override fun onBindViewHolder(holder: GifViewHolder, position: Int) {
         holder.binding.gif = getItem(position)
-        holder.binding.placeholder = ColorDrawable(getColorFromPosition(position))
+        holder.binding.color = getColorFromPosition(position)
     }
 
     fun getGif(position: Int): Giphy?{

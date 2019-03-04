@@ -3,11 +3,16 @@ package com.leodeleon.freshgifs.utils
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.widget.Toast
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +34,17 @@ fun getString(@StringRes resId: Int): String {
 
 fun getColor(@ColorRes resId: Int): Int {
     return ContextCompat.getColor(App.instance, resId)
+}
+
+fun getColorPlaceholder(@ColorInt color: Int, width:Int, height: Int): BitmapDrawable{
+    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+    val canvas = Canvas(bitmap)
+    val paint = Paint().apply {
+        this.color = color
+        style = Paint.Style.FILL
+    }
+    canvas.drawPaint(paint)
+    return BitmapDrawable(Resources.getSystem(),bitmap)
 }
 
 fun getColorFromPosition(position: Int): Int{

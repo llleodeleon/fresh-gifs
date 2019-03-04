@@ -1,31 +1,31 @@
 package com.leodeleon.freshgifs.explore
 
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
-import androidx.paging.PagedList
 import com.azoft.carousellayoutmanager.CarouselLayoutManager
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener
 import com.azoft.carousellayoutmanager.CenterScrollListener
 import com.bumptech.glide.Glide
 import com.jakewharton.rxbinding3.appcompat.queryTextChangeEvents
 import com.leodeleon.domain.entities.Giphy
-import com.leodeleon.freshgifs.base.BaseFragment
 import com.leodeleon.freshgifs.R
+import com.leodeleon.freshgifs.base.BaseFragment
 import com.leodeleon.freshgifs.databinding.FragmentExploreBinding
 import com.leodeleon.freshgifs.utils.BindingAdapters
+import com.leodeleon.freshgifs.utils.getColorFromPosition
 import com.leodeleon.freshgifs.utils.logd
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.fragment_explore.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import kotlin.random.Random
 
 class ExploreFragment : BaseFragment() {
 
@@ -116,7 +116,9 @@ class ExploreFragment : BaseFragment() {
         }
 
         if(avatarUrl.isNotEmpty()){
-            BindingAdapters.loadImage(picture,avatarUrl)
+            val random = Random.nextInt(0,5)
+            val placeholder = ColorDrawable(getColorFromPosition(random))
+            BindingAdapters.loadImage(picture,avatarUrl,placeholder)
         } else {
             Glide.with(picture).load(R.drawable.bg_source).into(picture)
         }

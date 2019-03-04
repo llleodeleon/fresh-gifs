@@ -9,17 +9,33 @@
             type="com.leodeleon.freshgifs.favorites.FaveItemViewModel"/>
     </data>
 
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:imageUrl="@{viewModel.imageUrl}"
-            app:placeholder="@{viewModel.placeholder}"
+            app:gifImage="@{viewModel.image}"
+            app:placeholderColor="@{viewModel.placeholder}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:padding="4dp"
+            android:onClick="@{viewModel.onClick}"
+            android:onLongClick="@{viewModel.onLongPress}"
             android:adjustViewBounds="true"
             tools:src="@tools:sample/avatars"
         />
 
+        <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_delete"
+                android:layout_gravity="center"
+                app:isVisible="@{viewModel.showDelete}"
+                android:onClick="@{viewModel.onClickDelete}"
+        />
+
+    </FrameLayout>
 </layout>
