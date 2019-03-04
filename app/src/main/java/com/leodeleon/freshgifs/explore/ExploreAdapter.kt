@@ -2,7 +2,6 @@ package com.leodeleon.freshgifs.explore
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -26,10 +25,6 @@ class ExploreAdapter: PagedListAdapter<Giphy, ExploreAdapter.GifViewHolder>(Expl
         return getItem(position)
     }
 
-    override fun onCurrentListChanged(currentList: PagedList<Giphy>?) {
-        super.onCurrentListChanged(currentList)
-    }
-
     class GifViewHolder(val binding: ItemGifVerticalBinding): RecyclerView.ViewHolder(binding.root)
 
     companion object {
@@ -38,10 +33,7 @@ class ExploreAdapter: PagedListAdapter<Giphy, ExploreAdapter.GifViewHolder>(Expl
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Giphy, newItem: Giphy): Boolean {
-                return oldItem == newItem
-            }
+            override fun areContentsTheSame(oldItem: Giphy, newItem: Giphy) = true
         }
     }
-
 }

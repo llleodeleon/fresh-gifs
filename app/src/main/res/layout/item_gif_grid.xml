@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:padding="4dp"
-            android:alpha="1"
+            android:alpha="@{viewModel.alpha}"
             android:onClick="@{viewModel.onClick}"
             android:onLongClick="@{viewModel.onLongPress}"
             android:adjustViewBounds="true"

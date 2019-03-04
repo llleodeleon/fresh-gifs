@@ -110,7 +110,7 @@ class ExploreViewModel(api: GiphyApi, private val repository: IFavoriteRepositor
         }
     }
 
-    fun onRetry(view: View){
+    fun onClickRetry(view: View){
         trendingFactory.source.invalidate()
     }
 

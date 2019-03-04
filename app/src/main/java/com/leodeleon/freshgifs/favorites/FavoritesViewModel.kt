@@ -16,7 +16,7 @@ import me.tatarka.bindingcollectionadapter2.collections.DiffObservableList
 class FavoritesViewModel(private val repository: IFavoriteRepository, private val schedulers: ISchedulerProvider): BaseViewModel() {
 
     val favorites = DiffObservableList<FaveItemViewModel>(object: DiffObservableList.Callback<FaveItemViewModel>{
-        override fun areContentsTheSame(oldItem: FaveItemViewModel, newItem: FaveItemViewModel) = false
+        override fun areContentsTheSame(oldItem: FaveItemViewModel, newItem: FaveItemViewModel) = true
 
         override fun areItemsTheSame(oldItem: FaveItemViewModel, newItem: FaveItemViewModel): Boolean {
             return oldItem.item.id == newItem.item.id
@@ -46,5 +46,12 @@ class FavoritesViewModel(private val repository: IFavoriteRepository, private va
                 favorites.update(newItems)
             }
             .addTo(subscriptions)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        favorites.forEach {
+            it.reset()
+        }
     }
 }

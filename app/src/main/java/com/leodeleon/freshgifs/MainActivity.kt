@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         override fun getItem(position: Int) = fragments[position]
 
         override fun getCount() = fragments.size
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
